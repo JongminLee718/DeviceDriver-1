@@ -71,8 +71,10 @@ TEST(DeviceDriver, WriteAll) {
 	NiceMock<MockFlashMemory>  mockHw;
 	DeviceDriver dd{ &mockHw };
 	EXPECT_CALL(mockHw, read(_))
+		.Times(25)
 		.WillRepeatedly(Return(0xFF));
 	EXPECT_CALL(mockHw, write(_,_)).Times(5);
+
 	dd.writeAll(100);
 }
 
