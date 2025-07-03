@@ -10,4 +10,9 @@ public:
 
 protected:
     FlashMemoryDevice* m_hardware;
+
+private:
+    const int DEFAULT_READ_RETRY_NUM = 4;
+    void ReadValidationCheck(long address, int result);
+    void WriteValidationCheck(long address);
 };

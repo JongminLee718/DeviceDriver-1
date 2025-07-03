@@ -32,9 +32,28 @@ TEST(DeviceDriver, ReadException) {
 		.WillOnce(Return(0x5))
 		.WillRepeatedly(Return(0x77));
 
-	EXPECT_THROW({
-		dd.read(0xA);
-		}, std::exception);
+	EXPECT_THROW(dd.read(0xA), std::exception);
+}
+
+TEST(DeviceDriver, Write) {
+	// TODO : replace hardware with a Test Double
+	MockFlashMemory  mockHw;
+	DeviceDriver dd{ &mockHw };
+
+	EXPECT_CALL(mockHw, read(0xA))
+		.WillRepeatedly(Return(0xFF));
+	dd.write(0xA, 0xABC);
+}
+
+TEST(DeviceDriver, WriteException) {
+	// TODO : replace hardware with a Test Double
+	MockFlashMemory  mockHw;
+	DeviceDriver dd{ &mockHw };
+
+	EXPECT_CALL(mockHw, read(0xA))
+		.WillRepeatedly(Return(0x12));
+
+	EXPECT_THROW(dd.write(0xA, 0xABC), std::exception);
 }
 
 int main() {
