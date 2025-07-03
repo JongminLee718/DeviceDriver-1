@@ -1,4 +1,5 @@
 #include "device_driver.h"
+#include <iostream>
 #include <stdexcept>
 
 class ReadFail : public std::exception {};
@@ -43,11 +44,14 @@ void DeviceDriver::writeValidationCheck(long address)
 
 void DeviceDriver::readAndPrint(long startAddr, long endAddr)
 {
-
+    for (int addr = startAddr; addr < endAddr + 1;addr++) {
+        std::cout << read(addr) << "\n";
+    }
 }
-
 
 void DeviceDriver::writeAll(unsigned char data)
 {
-
+    for (int addr = 0; addr < 5;addr++) {
+        write(addr, data);
+    }
 }

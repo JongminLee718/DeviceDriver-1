@@ -57,6 +57,25 @@ TEST(DeviceDriver, WriteException) {
 	EXPECT_THROW(dd.write(0xA, 0xABC), std::exception);
 }
 
+TEST(DeviceDriver, ReadAndPrint) {
+	// TODO : replace hardware with a Test Double
+	MockFlashMemory  mockHw;
+	DeviceDriver dd{ &mockHw };
+
+	EXPECT_CALL(mockHw, read(_)).Times(5 * 11);
+	dd.readAndPrint(10,20);
+}
+
+TEST(DeviceDriver, WriteAll) {
+	// TODO : replace hardware with a Test Double
+	NiceMock<MockFlashMemory>  mockHw;
+	DeviceDriver dd{ &mockHw };
+	EXPECT_CALL(mockHw, read(_))
+		.WillRepeatedly(Return(0xFF));
+	EXPECT_CALL(mockHw, write(_,_)).Times(5);
+	dd.writeAll(100);
+}
+
 int main() {
 	::testing::InitGoogleMock();
 	return RUN_ALL_TESTS();
