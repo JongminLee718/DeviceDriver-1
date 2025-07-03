@@ -7,12 +7,14 @@ public:
     DeviceDriver(FlashMemoryDevice* hardware);
     int read(long address);
     void write(long address, int data);
+    void readAndPrint(long startAddr, long endAddr);
+    void writeAll(unsigned char data);
 
 protected:
     FlashMemoryDevice* m_hardware;
 
 private:
     const int DEFAULT_READ_RETRY_NUM = 4;
-    void ReadValidationCheck(long address, int result);
-    void WriteValidationCheck(long address);
+    void readValidationCheck(long address, int result);
+    void writeValidationCheck(long address);
 };

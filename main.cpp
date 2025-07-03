@@ -37,7 +37,7 @@ TEST(DeviceDriver, ReadException) {
 
 TEST(DeviceDriver, Write) {
 	// TODO : replace hardware with a Test Double
-	MockFlashMemory  mockHw;
+	NiceMock<MockFlashMemory>  mockHw;
 	DeviceDriver dd{ &mockHw };
 
 	EXPECT_CALL(mockHw, read(0xA))
@@ -51,6 +51,7 @@ TEST(DeviceDriver, WriteException) {
 	DeviceDriver dd{ &mockHw };
 
 	EXPECT_CALL(mockHw, read(0xA))
+		.Times(5)
 		.WillRepeatedly(Return(0x12));
 
 	EXPECT_THROW(dd.write(0xA, 0xABC), std::exception);
